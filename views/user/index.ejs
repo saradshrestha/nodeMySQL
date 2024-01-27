@@ -1,0 +1,22 @@
+<%- include('layout', { 
+  title: 'Main Page' , body: '
+    <div class="container mt-5">
+      <h2>User List</h2>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Email</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% users.forEach(user => { %>
+            <tr>
+              <td><%= user.name %></td>
+              <td><%= user.email %></td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
+  ' }) %>
