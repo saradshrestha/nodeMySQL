@@ -7,11 +7,11 @@ class ResponseService {
       };
     }
   
-    static error(message = 'Internal Server Error', statusCode = 500) {
+    static error(message = 'Internal Server Error', status = 500) {
       return {
         success: false,
         message,
-        statusCode,
+        status,
       };
     }
   

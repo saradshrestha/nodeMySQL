@@ -10,7 +10,8 @@ const authenticateUser = (req, res, next) => {
 
   try {
     // Verify the token
-    const decoded = jwt.verify(token, 'your-secret-key');
+    const secretKey = process.env.SECRET_KEY || 'fallback_secret_key';
+    const decoded = jwt.verify(token, secretKey);
     req.userId = decoded.userId;
     next();
   } catch (error) {
