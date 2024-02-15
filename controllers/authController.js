@@ -4,18 +4,26 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
 const responseService = require('../responseService/ResponseService');
+const FileUploader = require('../FileUploader');
+const fileUploader = new FileUploader();
+
 
 // Register a new user
 exports.registerUser = async (req, res) => {
-  const { name, email, password } = req.body;
-
+ 
   try {   
-    const hash = await bcrypt.hash(password, saltRounds);
-    console.log(password,email);
-    const user = await User.create({ name, email, password: hash });
-    const response = responseService.success(user, 'User successfully registered.');
-    res.json(response);
+    const { name, email, password, file } = req.body;
+    fileUploader.single('image')(req, res, async (err) => {
+      if (err) {
+        return res.json(responseService.error(err.message));
+      }
+      const uploadedImage = file;
+      const hash = await bcrypt.hash(password, saltRounds);
+      const user = await User.create({ name, email, password: hash, });
+      const response = responseService.success(user, 'User successfully registered.');
+      res.json(response);
 
+    });
   } catch (error) {
     res.json(responseService.error( error.message ));
   }
