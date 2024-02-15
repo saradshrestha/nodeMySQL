@@ -17,6 +17,15 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
       },
+      resize_path: {
+        type: Sequelize.STRING,
+        allowNull: true,
+      },
+      ext: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,

@@ -13,6 +13,14 @@ const UploadFile = sequelize.define('UploadFile', {
     type: DataTypes.STRING,
     allowNull: false,
   },
+  resize_path: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+  ext: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
 });
 
 
