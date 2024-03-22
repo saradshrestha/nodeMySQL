@@ -1,7 +1,7 @@
 // models/userModel.js
 const { Sequelize, DataTypes } = require('sequelize');
 const sequelize = new Sequelize(require('../config/database'));
-const UploadFile = require('./uploadFileModel');
+const uploadFile = require('./uploadFileModel');
 
 const User = sequelize.define('User', {
   name: {
@@ -16,9 +16,9 @@ const User = sequelize.define('User', {
   profile_image_id: {
     type: DataTypes.INTEGER,
     allowNull: true,
-  },
+  }
 });
 
-User.belongsTo(UploadFile, { foreignKey: 'profile_image_id' });
+User.belongsTo(uploadFile, { foreignKey: 'profile_image_id' });
 
 module.exports = User;

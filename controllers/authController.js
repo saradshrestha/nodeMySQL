@@ -4,8 +4,8 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
 const responseService = require('../responseService/ResponseService');
-const FileUploader = require('../FileUploader');
-const fileUploader = new FileUploader();
+const FileUploader = require('../global/FileUploader');
+const fileUploaderfn = new FileUploader();
 
 
 // Register a new user
@@ -13,7 +13,7 @@ exports.registerUser = async (req, res) => {
  
   try {   
     const { name, email, password, file } = req.body;
-    fileUploader.single('image')(req, res, async (err) => {
+    fileUploaderfn.single('image')(req, res, async (err) => {
       if (err) {
         return res.json(responseService.error(err.message));
       }

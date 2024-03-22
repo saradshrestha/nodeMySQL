@@ -25,6 +25,6 @@ const UploadFile = sequelize.define('UploadFile', {
 
 
 
-UploadFile.hasOne(User, { foreignKey: 'profile_image_id' });
+// UploadFile.hasOne(User);`
 
 module.exports = UploadFile;
