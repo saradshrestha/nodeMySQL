@@ -6,26 +6,32 @@ const saltRounds = 10;
 const responseService = require('../responseService/ResponseService');
 const FileUploader = require('../global/FileUploader');
 const fileUploaderfn = new FileUploader();
+const sendVerificationMail = require('../mail/userVerificationMail');
+
 
 
 // Register a new user
 exports.registerUser = async (req, res) => {
- 
   try {   
     const { name, email, password, file } = req.body;
-    fileUploaderfn.single('image')(req, res, async (err) => {
-      if (err) {
-        return res.json(responseService.error(err.message));
-      }
-      const uploadedImage = file;
+    var uploadedImage='';
+    if(file){
+      var uploaded = fileUploaderfn.single('image')(req, res, async (err) => {
+        if (err) {
+          return res.send(responseService.error(err.message));
+        }
+      });
+      uploadedImage = uploaded;
+    }
       const hash = await bcrypt.hash(password, saltRounds);
-      const user = await User.create({ name, email, password: hash, });
-      const response = responseService.success(user, 'User successfully registered.');
-      res.json(response);
-
-    });
+      const user = await User.create({ name, email, hash,uploadedImage });
+      if(user){
+        await sendVerificationMail(user.email);
+        res.send(responseService.success(user, 'User successfully registered.',200));
+      } 
+      res.send(responseService.error("Something Went Wrong."));
   } catch (error) {
-    res.json(responseService.error( error.message ));
+    res.send(responseService.error(error.message ));
   }
 };
 

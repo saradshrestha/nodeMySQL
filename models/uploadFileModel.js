@@ -1,10 +1,11 @@
 // models/uploadFileModel.js
-const { Sequelize, DataTypes } = require('sequelize');
+const { Sequelize, DataTypes, Model } = require('sequelize');
 const sequelize = new Sequelize(require('../config/database'));
-const User = require('./userModel')
+const user = require('./userModel')
 
+class UploadFile extends Model{}
 
-const UploadFile = sequelize.define('UploadFile', {
+UploadFile.init({
   filename: {
     type: DataTypes.STRING,
     allowNull: false,
@@ -21,10 +22,13 @@ const UploadFile = sequelize.define('UploadFile', {
     type: DataTypes.STRING,
     allowNull: false,
   },
+},{
+  sequelize,
+  modelName:"UploadFile"
 });
 
 
 
-// UploadFile.hasOne(User);`
+// UploadFile.hasOne(User);` no need to add this.
 
 module.exports = UploadFile;

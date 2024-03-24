@@ -1,9 +1,11 @@
 // models/userModel.js
-const { Sequelize, DataTypes } = require('sequelize');
+const { Sequelize, DataTypes, Model } = require('sequelize');
 const sequelize = new Sequelize(require('../config/database'));
 const uploadFile = require('./uploadFileModel');
 
-const User = sequelize.define('User', {
+class User extends Model{}
+
+User.init({
   name: {
     type: DataTypes.STRING,
     allowNull: false,
@@ -11,12 +13,20 @@ const User = sequelize.define('User', {
   email: {
     type: DataTypes.STRING,
     allowNull: false,
-    unique: true,
+    unique: true, // Ensure email is unique
+  },
+  password: {
+    type: DataTypes.STRING,
+    allowNull: false,
   },
   profile_image_id: {
     type: DataTypes.INTEGER,
     allowNull: true,
   }
+
+},{
+  sequelize,
+  modelName: "User"
 });
 
 User.belongsTo(uploadFile, { foreignKey: 'profile_image_id' });

@@ -1,9 +1,17 @@
 class ResponseService {
-    static success(data = null, message = 'Success') {
+  static successMsg(message = 'Success',status = 200) {
+      return {
+        success: true,
+        message,
+        status
+      };
+    }
+    static success(data = null, message = 'Success', status=200) {
       return {
         success: true,
         data,
         message,
+        status
       };
     }
   
