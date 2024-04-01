@@ -8,6 +8,7 @@ const authMiddleware = require('../middlewares/authMiddleware');
 
 
 router.post('/register', userStoreValidationRules,validate,authController.registerUser);
+
 router.post('/login', authController.loginUser);
 
 module.exports = router;

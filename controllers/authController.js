@@ -7,13 +7,16 @@ const responseService = require('../responseService/ResponseService');
 const FileUploader = require('../global/FileUploader');
 const fileUploaderfn = new FileUploader();
 const sendVerificationMail = require('../mail/userVerificationMail');
+const { validationResult } = require('express-validator');
 
 
 
 // Register a new user
 exports.registerUser = async (req, res) => {
   try {   
+
     const { name, email, password, file } = req.body;
+    const existingUser = await User.findOne({ where: { email: email } });
     var uploadedImage='';
     if(file){
       var uploaded = fileUploaderfn.single('image')(req, res, async (err) => {
@@ -21,17 +24,18 @@ exports.registerUser = async (req, res) => {
           return res.send(responseService.error(err.message));
         }
       });
-      uploadedImage = uploaded;
+      //  res.json(uploaded);
+      // uploadedImage = uploaded->id;
     }
       const hash = await bcrypt.hash(password, saltRounds);
-      const user = await User.create({ name, email, hash,uploadedImage });
+      const user = await User.create({ name, email, password:hash,uploadedImage });
       if(user){
-        await sendVerificationMail(user.email);
+        // await sendVerificationMail(user.email);
         res.send(responseService.success(user, 'User successfully registered.',200));
       } 
       res.send(responseService.error("Something Went Wrong."));
   } catch (error) {
-    res.send(responseService.error(error.message ));
+    res.send(responseService.error(error.message));
   }
 };
 
