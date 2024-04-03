@@ -13,7 +13,7 @@ User.init({
   email: {
     type: DataTypes.STRING,
     allowNull: false,
-    // unique: true, // Ensure email is unique
+    unique: true, // Ensure email is unique
   },
   password: {
     type: DataTypes.STRING,

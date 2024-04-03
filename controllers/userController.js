@@ -27,3 +27,26 @@ exports.createUser = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
+
+exports.profileUpdate = async (req, res) => {
+  
+  try {
+    const user = await User.findOne({ 
+            where: { email }, 
+            attributes: { exclude: ['createdAt', 'updatedAt'] } 
+          });
+
+    if (!user) {
+      return res.json(responseService.error('Invalid Email Address.', 404));
+    }
+
+    const passwordMatch = await bcrypt.compare(password, user.password);
+    if (!passwordMatch) {
+      return res.json(responseService.error('Password Does Not Match', 401));
+    }
+
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};

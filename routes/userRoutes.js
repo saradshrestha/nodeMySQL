@@ -6,8 +6,11 @@ const userMiddleware = require('../middlewares/userMiddleware');
 const authMiddleware = require('../middlewares/authMiddleware');
 
 
-router.get('/users', userController.getAllUsers);
+// router.get('/users', userController.getAllUsers);
 
-router.post('/user-submit',userMiddleware, userController.createUser);
+// router.post('/user-submit',userMiddleware, userController.createUser);
+
+router.post('/profile-update',authMiddleware, userController.profileUpdate);
+
 
 module.exports = router;
