@@ -56,7 +56,12 @@ exports.loginUser = async (req, res) => {
     }
 
     const secretKey = process.env.SECRET_KEY || 'fallback_secret_key';
-    const token = jwt.sign({ userId: user.id }, secretKey, { expiresIn: '1h' });
+    const token = jwt.sign({ 
+                userId: user.id,
+                userName: user.name 
+              }, 
+              secretKey, { expiresIn: '100h' }
+            );
 
     return res.json(responseService.success({ user: user, token: token }, "Successfully Logged In."), 200);
   } catch (error) {

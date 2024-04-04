@@ -8,12 +8,13 @@ const authenticateUser = (req, res, next) => {
     if (!token) {
       return res.json(responseService.error('Unauthorized - No token provided',401))
     }
-    const secretKey = process.env.SECRET_KEY || 'fallback_secret_key';
-    // const token1 = jwt.sign({ userId: user.id }, secretKey, { expiresIn: '1h' });
-
-    // return res.json({token:token,token1:secretKey});
-    const decoded = jwt.verify(token, secretKey);
+    const tokenString = token.split(' ')[1];
+    const secretKey = process.env.SECRET_KEY;
+    console.log(token);
+    const decoded = jwt.verify(tokenString, secretKey);
         req.user_id = decoded.userId;
+        req.user_name = decoded.userName;
+
     next();
   } catch (error) {
     console.log(error);
