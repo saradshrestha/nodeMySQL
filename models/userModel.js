@@ -29,6 +29,6 @@ User.init({
   modelName: "User"
 });
 
-User.belongsTo(uploadFile, { foreignKey: 'profile_image_id' });
+// User.belongsTo(uploadFile, { foreignKey: 'profile_image_id' });
 
 module.exports = User;

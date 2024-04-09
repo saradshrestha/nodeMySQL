@@ -3,7 +3,6 @@ const User = require("../models/userModel");
 const { Op } = require('sequelize');
 
 
-
 exports.userProfileUpdateValidationRules = [
   check("name")
     .notEmpty()
@@ -24,20 +23,20 @@ exports.userProfileUpdateValidationRules = [
                     id: { [Op.ne]: req.userId } 
                   }});
 
-      console.log(existingUser);
       if (existingUser) {
         throw new Error("Email address is already in use.", 422);
       }
     }),
 
-    check("profile_image")
-    .custom((value, { req }) => {
-      if (!req.files) {
-        throw new Error("Profile image is required.");
-      }
-      // You can add additional checks for file type, size, etc. here
-      return true; // Validation passed
-    })
+    // check("profile_image")
+    // .custom((value, { req }) => {
+    //   console.log(req.files,req.body,'valiadtion');      
+    //   if (!req.files) {
+    //     throw new Error("Profile image is required.");
+    //   }
+    //   // You can add additional checks for file type, size, etc. here
+    //   return true; // Validation passed
+    // })
 
 ];
 

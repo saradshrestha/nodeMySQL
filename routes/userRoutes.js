@@ -4,9 +4,17 @@ const router = express.Router();
 const userController = require('../controllers/userController');
 const authMiddleware = require('../middlewares/authMiddleware');
 const { userProfileUpdateValidationRules, validate } = require('../validations/userProfileUpdateValidation');
+const upload =  require('../global/imageUpload');
 
 
-router.post('/profile-update',authMiddleware,userProfileUpdateValidationRules,validate, userController.profileUpdate);
 
-
+router.post('/profile-update',
+        [
+                authMiddleware,
+                upload.single('profile_image'), // Add file uploading middleware here
+                userProfileUpdateValidationRules,
+                validate,
+        ],
+        userController.profileUpdate);
+        
 module.exports = router;

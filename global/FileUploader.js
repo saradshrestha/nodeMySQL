@@ -1,60 +1,37 @@
 const multer = require('multer');
 const sharp = require('sharp');
-const fs = require('fs/promises');
-const path = require('path');
-const UploadFile = require('../models/uploadFileModel');
+const fs = require('fs');
 
 class FileUploader {
   constructor() {
     this.storage = multer.diskStorage({
-      destination: async (req, file, cb) => {
+      destination: (req, file, cb) => {
+        console.log(file,req,'storeage');
         const currentDate = new Date();
         const year = currentDate.getFullYear();
         const month = String(currentDate.getMonth() + 1).padStart(2, '0');
-        const day = String(currentDate.getDate()).padStart(2, '0');
+        // const day = String(currentDate.getDate()).padStart(2, '0');
 
-        const folderPath = `uploads/${year}/${month}/${day}`;
-        const originalPath = `${folderPath}/original`;
-        const resizePath = `${folderPath}/resize`;
+        const uploadPath = `uploads/${year}/${month}`;
 
-        try {
-          await fs.mkdir(originalPath, { recursive: true });
-          await fs.mkdir(resizePath, { recursive: true });
-          cb(null, originalPath);
-        } catch (error) {
-          cb(error, null);
-        }
+        fs.mkdirSync(uploadPath, { recursive: true });
+        
+        console.log('uploadPath');
+
+        this.uploadPath = uploadPath;
+        cb(null, uploadPath);
       },
-      filename: async (req, file, cb) => {
-        const ext = path.extname(file.originalname).toLowerCase();
-        const filename = `${Date.now()}${ext}`;
-        const originalPath = file.path.replace('/original', ''); // Adjust the path
-        const resizePath = originalPath.replace('/original', '/resize'); // Adjust the path
-
-        try {
-          if (file.mimetype.startsWith('image/')) {
-            await sharp(file.path).resize({ width: 300, height: 300 }).toFile(resizePath);
-          } else {
-            await fs.rename(file.path, originalPath);
-          }
-
-          const uploaded = await UploadFile.create({
-            filename: filename,
-            path: originalPath,
-            resize_path: resizePath,
-            ext: ext,
-          });
-          cb(null, uploaded);
-        } catch (error) {
-          cb(error, null);
-        }
-      },
-    });
-
+     
+      filename: (req, file, cb) => {
+          console.log('filename');
+          cb(null,file.originalname);
+        },
+      });
+  
     this.upload = multer({ storage: this.storage });
   }
 
-  multiple(fieldName, maxCount = null) {
+  multiple(fieldName, maxCount) {
     return this.upload.array(fieldName, maxCount);
   }
 

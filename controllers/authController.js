@@ -63,9 +63,8 @@ exports.loginUser = async (req, res) => {
               secretKey, { expiresIn: '100h' }
             );
 
-    return res.json(responseService.success({ user: user, token: token }, "Successfully Logged In."), 200);
+    return res.status(200).json(responseService.success({ user: user, token: token }, "Successfully Logged In."), 200);
   } catch (error) {
-    console.error('Error in registerUser:', error); // Log the error
     return res.json(responseService.error('An unexpected error occurred.'));
   }
 };

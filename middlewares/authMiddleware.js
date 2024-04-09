@@ -10,14 +10,12 @@ const authenticateUser = (req, res, next) => {
     }
     const tokenString = token.split(' ')[1];
     const secretKey = process.env.SECRET_KEY;
-    console.log(token);
     const decoded = jwt.verify(tokenString, secretKey);
         req.user_id = decoded.userId;
         req.user_name = decoded.userName;
 
     next();
   } catch (error) {
-    console.log(error);
     return res.json(responseService.error(error.message))
   }
 };
