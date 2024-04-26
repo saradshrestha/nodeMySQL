@@ -1,6 +1,7 @@
 {
   "scripts": {
-    "start": "nodemon app.js"   
+    "start": "nodemon app.js" ,
+    "generateKey":"node config\\secretKeyGenerator.js"
   },
   "dependencies": {
     "bcrypt": "^5.1.1",

@@ -1,4 +1,4 @@
-// generateSecretKey.js
+// secretKeyGenerator.js
 
 const fs = require('fs');
 const crypto = require('crypto');
