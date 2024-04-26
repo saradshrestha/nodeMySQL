@@ -12,6 +12,12 @@ const PORT = process.env.PORT || 8000;
 app.use(express.json()); // for parsing application/json
 
 // Routes
+app.use('/', async (req, res) => {
+
+  res.send("Hello");
+
+});
+
 app.use('/api', mainRoutes);
 app.use('/api', userRoutes);
 app.use('/api', authRoutes);

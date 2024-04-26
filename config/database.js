@@ -1,7 +1,16 @@
+
+const db_host = process.env.DB_HOST || 'localhost';
+const db_username = process.env.DB_USERNAME || '';
+const db_password = process.env.DB_PASSWORD || '';
+const db_name = process.env.DB_NAME || '';
+const db_dialect = process.env.DB_DIALECT || 'mysql';
+
+
+
 module.exports = {
-    host: 'localhost',
-    username: 'root',
-    password: '',
-    database: 'nodeMVC',
+    host: db_host,
+    username: db_username,
+    password: db_password,
+    database: db_name,
     dialect: 'mysql', // explicitly specify the dialect
 };
