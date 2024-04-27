@@ -1,9 +1,9 @@
 // routes/index.js
 const express = require('express');
 const router = express.Router();
-const userController = require('../controllers/userController');
-const authMiddleware = require('../middlewares/authMiddleware');
-const { userProfileUpdateValidationRules, validate } = require('../validations/userProfileUpdateValidation');
+const userController = require('../app/controllers/userController');
+const authMiddleware = require('../app/middlewares/authMiddleware');
+const { userProfileUpdateValidationRules, validate } = require('../app/validations/userProfileUpdateValidation');
 const upload =  require('../global/imageUpload');
 
 

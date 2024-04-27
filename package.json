@@ -1,7 +1,15 @@
 {
   "scripts": {
     "start": "nodemon app.js" ,
-    "generateKey":"node config\\secretKeyGenerator.js"
+    "generateKey":"node config\\secretKeyGenerator.js",
+    "migration:create": "npx sequelize-cli migration:generate --name",
+    "migrate": "npx sequelize-cli db:migrate",
+    "migration:undo": "npx sequelize-cli db:migrate:undo",
+    "migration:fresh" : "npx sequelize-cli db:migrate:undo npx sequelize-cli db:migrate",
+
+    "seed:create" : "npx sequelize-cli seed:generate --name",
+    "seed:all": "npx sequelize-cli db:seed:all",
+    "seed:undo": "npx sequelize-cli db:seed:undo"
   },
   "dependencies": {
     "bcrypt": "^5.1.1",

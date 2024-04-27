@@ -1,9 +1,7 @@
 const { check, validationResult } = require("express-validator");
-const User = require("../models/userModel");
-const { Op } = require('sequelize');
+const User = require("../../models/userModel");
 
-
-exports.userProfileUpdateValidationRules = [
+exports.userStoreValidationRules = [
   check("name")
     .notEmpty()
     .withMessage("Please enter your name")
@@ -16,28 +14,28 @@ exports.userProfileUpdateValidationRules = [
     .withMessage("Please enter a valid email")
     .notEmpty()
     .withMessage("Please enter email")
-    .custom(async (value,req) => {
-      const existingUser = await User.findOne( { 
-                  where: { 
-                    email: value,
-                    id: { [Op.ne]: req.userId } 
-                  }});
-
+    .custom(async (value) => {
+      const existingUser = await User.findOne({ where: { email: value } });
+      console.log(existingUser);
       if (existingUser) {
         throw new Error("Email address is already in use.", 422);
       }
     }),
 
-    // check("profile_image")
-    // .custom((value, { req }) => {
-    //   console.log(req.files,req.body,'valiadtion');      
-    //   if (!req.files) {
-    //     throw new Error("Profile image is required.");
-    //   }
-    //   // You can add additional checks for file type, size, etc. here
-    //   return true; // Validation passed
-    // })
+  check("password")
+    .notEmpty()
+    .withMessage("Please enter your password")
+    .isLength({ min: 6 })
+    .withMessage("Please enter your password"),
 
+  check("confirm_password")
+    .notEmpty()
+    .withMessage("Please enter your comfirm password")
+    .isLength({ min: 6 })
+    .withMessage("Please enter your comfirm password")
+    .custom((value, { req }) => {
+      return value === req.body.password;
+    }).withMessage('Password and Confirm Password Must Be Same')
 ];
 
 exports.validate = (req, res, next) => {

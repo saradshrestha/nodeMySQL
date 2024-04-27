@@ -1,10 +1,10 @@
 // controllers/authController.js
-const User = require('../models/userModel');
+const User = require('../../models/userModel');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
-const responseService = require('../responseService/ResponseService');
-const FileUploader = require('../global/FileUploader');
+const responseService = require('../../responseService/ResponseService');
+const FileUploader = require('../../global/FileUploader');
 const fileUploaderfn = new FileUploader();
 const sendVerificationMail = require('../mail/userVerificationMail');
 

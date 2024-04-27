@@ -1,7 +1,7 @@
 // controllers/userController.js
-const User = require('../models/userModel');
+const User = require('../../models/userModel');
 const { json } = require('body-parser');
-const responseService = require('../responseService/ResponseService');
+const responseService = require('../../responseService/ResponseService');
 
 
 exports.profileUpdate = async (req, res) => {
